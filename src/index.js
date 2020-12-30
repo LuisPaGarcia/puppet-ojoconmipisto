@@ -21,7 +21,7 @@ async function start() {
 			const links = await page.evaluate(() =>
 				[ ...document.querySelectorAll('#content div[id^="post-"] h2 a') ].map(node => node.href)
 			);
-			log('green', `- Get 10 post links from ${landingUrl.concat(path)}`);
+			log('green', `\n- Get 10 post links from ${landingUrl.concat(path)}`);
 			// console.log(links);
 
 			for (const url of links) {
