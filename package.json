@@ -18,6 +18,7 @@
 	},
 	"homepage": "https://github.com/LuisPaGarcia/puppet-ojoconmipisto#readme",
 	"dependencies": {
+		"json2csv": "^5.0.5",
 		"puppeteer": "^5.5.0",
 		"puppeteer-core": "^5.5.0"
 	}
