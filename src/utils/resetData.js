@@ -7,6 +7,10 @@ const paths = [
 	{
 		path: './output/completed.json',
 		defaultValue: '[]'
+	},
+	{
+		path: './output/data.csv',
+		defaultValue: ''
 	}
 ];
 function reset() {

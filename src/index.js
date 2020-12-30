@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const dateToUs = require('./utils/dateToUs');
 const trimText = require('./utils/trimText');
 const saveData = require('./utils/saveData');
+const saveCsv = require('./utils/saveCsv');
 const saveCompleted = require('./utils/saveCompleted');
 const generatePaths = require('./utils/generatePaths');
 const log = require('./utils/log');
@@ -20,7 +21,8 @@ async function start() {
 			const links = await page.evaluate(() =>
 				[ ...document.querySelectorAll('#content div[id^="post-"] h2 a') ].map(node => node.href)
 			);
-			console.log(links);
+			log('green', `- Get 10 post links from ${landingUrl.concat(path)}`);
+			// console.log(links);
 
 			for (const url of links) {
 				const postPage = await browser.newPage();
@@ -63,6 +65,9 @@ async function start() {
 					// save data
 					await saveData(post);
 
+					// save csv
+					await saveCsv();
+
 					// Close child post page
 					await postPage.close();
 					log('green', `Completed ${url}`);
@@ -75,7 +80,6 @@ async function start() {
 			}
 			// Close list of post page
 			await page.close();
-			log('green', `Get 10 links on ${landingUrl.concat(path)}`);
 		} catch (error) {
 			console.log(error);
 			await page.close();
