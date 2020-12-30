@@ -13,8 +13,8 @@ async function start() {
 	const paths = generatePaths();
 	const browser = await puppeteer.launch();
 	for (const path of paths) {
+		const page = await browser.newPage();
 		try {
-			const page = await browser.newPage();
 			await page.goto(landingUrl.concat(path), pageConfig);
 			await page.waitForSelector('#content div[id^="post-"] h2 a');
 			const links = await page.evaluate(() =>
@@ -23,8 +23,8 @@ async function start() {
 			console.log(links);
 
 			for (const url of links) {
+				const postPage = await browser.newPage();
 				try {
-					const postPage = await browser.newPage();
 					await postPage.goto(url, pageConfig);
 
 					// title capture
@@ -67,15 +67,20 @@ async function start() {
 					await postPage.close();
 					log('green', `Completed ${url}`);
 				} catch (error) {
-					// await postPage.close();
+					console.log(error);
+					await postPage.close();
 					log('red', `Error on ${url}`);
+					continue;
 				}
 			}
 			// Close list of post page
 			await page.close();
+			log('green', `Get 10 links on ${landingUrl.concat(path)}`);
 		} catch (error) {
 			console.log(error);
-			// await page.close();
+			await page.close();
+			log('red', `Error on links page ${landingUrl.concat(path)}`);
+			continue;
 		}
 	}
 }
