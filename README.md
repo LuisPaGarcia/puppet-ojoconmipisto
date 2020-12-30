@@ -49,3 +49,5 @@ Will erase the content of the
 - `output/data.csv`.
 - `output/completed.json`.
 
+**We recommend to run this script everytime you want to start to scrapping.**
+
